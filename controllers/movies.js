@@ -30,7 +30,6 @@ const createMovies = async (req, res, next) => {
     }
     return res.status(200).send(movies);
   } catch (e) {
-    console.log(e);
     if (e.name === 'ValidationError') {
       return next(new BadRequest('Ошибка в запросе'));
     }
