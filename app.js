@@ -1,10 +1,15 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 4000, NODE_ENV, DB_LINK } = process.env;
+
+const DB_LINKDEV = require('./constant/constant');
+
 const app = express();
 const router = require('./routes');
 const NotFoudError = require('./errors/NotFoudError');
@@ -16,17 +21,15 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-async function main() {
+async function main(next) {
   try {
-    await mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+    await mongoose.connect(NODE_ENV === 'production' ? DB_LINK : DB_LINKDEV, {
       useNewUrlParser: true,
       useUnifiedTopology: false,
     });
-
     await app.listen(PORT);
-    console.log(`Сервер запущен на ${PORT} порту`);
   } catch (e) {
-    console.log('Произошла ошибка на сервере');
+    next(e);
   }
 }
 
