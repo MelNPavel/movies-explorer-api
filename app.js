@@ -28,10 +28,8 @@ async function main() {
     });
 
     await app.listen(PORT);
-    // eslint-disable-next-line no-console
     console.log(`Сервер запущен на ${PORT} порту`);
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.log('Произошла ошибка на сервере');
   }
 }
@@ -57,8 +55,6 @@ app.use(usersRouters);
 
 app.use(moviesRouters);
 
-app.use(errorLogger);
-
 app.use('*', (req, res, next) => {
   next(new NotFoudError('Такой страницы нет'));
 });
@@ -76,5 +72,7 @@ app.use((err, req, res, next) => {
     });
   next();
 });
+
+app.use(errorLogger);
 
 main();

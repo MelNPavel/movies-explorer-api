@@ -28,11 +28,11 @@ const getUserMe = async (req, res, next) => {
 };
 
 const userUpdate = async (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   try {
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, about },
+      { name, email },
       { new: true, runValidators: true },
     );
     if (!user) {
@@ -60,8 +60,9 @@ const userCreate = async (req, res, next) => {
       name,
       password: hashedPassword,
     });
-    return (res.status(200).send(user));
+    return res.status(200).send(user);
   } catch (e) {
+    console.log(e);
     if (e.name === 'ValidationError') {
       return next(new BadRequest('Ошибка в запросе'));
     }
