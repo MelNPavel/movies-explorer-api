@@ -1,16 +1,16 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
 
-const moviesRouters = express.Router();
+const router = express.Router();
 const {
   getMovies,
   createMovies,
   deleteMovies,
 } = require('../controllers/movies');
 
-moviesRouters.get('/movies', getMovies);
+router.get('/', getMovies);
 
-moviesRouters.post('/movies', celebrate({
+router.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -25,14 +25,14 @@ moviesRouters.post('/movies', celebrate({
     nameEN: Joi.string().required(),
     // eslint-disable-next-line no-useless-escape
     thumbnail: Joi.string().required().regex(/((?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/),
-    movieId: Joi.number().required(),
+    movieId: Joi.string().hex().length(24),
   }),
 }), createMovies);
 
-moviesRouters.delete('/movies/:_id', celebrate({
+router.delete('/:_id', celebrate({
   params: Joi.object().keys({
     _id: Joi.string().hex().required(),
   }),
 }), deleteMovies);
 
-module.exports = { moviesRouters };
+module.exports = router;

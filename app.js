@@ -2,17 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const cookieParser = require('cookie-parser');
-const { errors, celebrate, Joi } = require('celebrate');
+const { errors } = require('celebrate');
 
 const { PORT = 4000 } = process.env;
 const app = express();
-const auth = require('./midllewares/auth');
-const { usersRouters } = require('./routes/user');
-const { moviesRouters } = require('./routes/movie');
+const router = require('./routes');
 const NotFoudError = require('./errors/NotFoudError');
 const { requestLogger, errorLogger } = require('./midllewares/logger');
-
-const { login, userCreate } = require('./controllers/users');
 
 app.use(express.json());
 
@@ -34,26 +30,7 @@ async function main() {
   }
 }
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), userCreate);
-
-app.use(auth);
-
-app.use(usersRouters);
-
-app.use(moviesRouters);
+app.use(router);
 
 app.use('*', (req, res, next) => {
   next(new NotFoudError('Такой страницы нет'));

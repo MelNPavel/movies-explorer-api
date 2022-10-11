@@ -40,6 +40,9 @@ const userUpdate = async (req, res, next) => {
     }
     return res.status(200).send(user);
   } catch (e) {
+    if (e.code === 11000) {
+      return next(new ConflictError('Пользователь с такими данными уже существует'));
+    }
     if (e.name === 'ValidationError') {
       return next(new BadRequest('Ошибка в запросе'));
     }
