@@ -1,5 +1,6 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 
 const router = express.Router();
 const {
@@ -17,14 +18,26 @@ router.post('/', celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    // eslint-disable-next-line no-useless-escape
-    image: Joi.string().required().regex(/((?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/),
-    // eslint-disable-next-line no-useless-escape
-    trailerLink: Joi.string().regex(/((?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/),
+    image: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле image заполнено некорректно');
+    }),
+    trailerLink: Joi.string().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле trailerLink заполнено некорректно');
+    }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    // eslint-disable-next-line no-useless-escape
-    thumbnail: Joi.string().required().regex(/((?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/),
+    thumbnail: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле thumbnail заполнено некорректно');
+    }),
     movieId: Joi.string().hex().length(24),
   }),
 }), createMovies);

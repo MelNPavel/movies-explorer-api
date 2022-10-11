@@ -10,6 +10,7 @@ const NotFoudError = require('../errors/NotFoudError');
 const InternalServerError = require('../errors/InternalServerError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
+const DEV_SECRET_JWT = require('../constant/constant');
 
 const getUserMe = async (req, res, next) => {
   const userId = req.user._id;
@@ -65,7 +66,6 @@ const userCreate = async (req, res, next) => {
     });
     return res.status(200).send(user);
   } catch (e) {
-    console.log(e);
     if (e.name === 'ValidationError') {
       return next(new BadRequest('Ошибка в запросе'));
     }
@@ -91,7 +91,7 @@ const login = async (req, res, next) => {
 
     const token = jwt.sign({
       _id: checkUser.id,
-    }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    }, NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET_JWT);
 
     res.cookie('jwt', token, {
       maxAge: 3600000,
