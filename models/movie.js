@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
 
@@ -32,13 +32,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      // eslint-disable-next-line func-names, object-shorthand
-      validator: function (v) {
-        // eslint-disable-next-line no-useless-escape
-        return /((?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/.test(v);
-      // eslint-disable-next-line indent
-     },
-      message: 'Ошибка в ссылке',
+      validate: [validator.isURL, 'Ошибка в ссылке'],
     },
   },
 
@@ -46,13 +40,9 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      // eslint-disable-next-line func-names, object-shorthand
-      validator: function (v) {
-        // eslint-disable-next-line no-useless-escape
-        return /(?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?/.test(v);
-      // eslint-disable-next-line indent
-     },
-      message: 'Ошибка в ссылке',
+      validate: {
+        validate: [validator.isURL, 'Ошибка в ссылке'],
+      },
     },
   },
 
@@ -60,13 +50,9 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      // eslint-disable-next-line func-names, object-shorthand
-      validator: function (v) {
-        // eslint-disable-next-line no-useless-escape
-        return /(?:(?:http?)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?/.test(v);
-      // eslint-disable-next-line indent
-     },
-      message: 'Ошибка в ссылке',
+      validate: {
+        validate: [validator.isURL, 'Ошибка в ссылке'],
+      },
     },
   },
 

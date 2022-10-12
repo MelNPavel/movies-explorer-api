@@ -16,14 +16,33 @@ const getMovies = async (req, res, next) => {
 
 const createMovies = async (req, res, next) => {
   const {
-    // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
   } = req.body;
   const owner = req.user._id;
   try {
     const movies = await new Movie({
-      // eslint-disable-next-line max-len
-      country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner,
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      nameRU,
+      nameEN,
+      thumbnail,
+      movieId,
+      owner,
     }).save();
     if (!movies) {
       return next(new NotFoudError('Такой картоки нет'));
