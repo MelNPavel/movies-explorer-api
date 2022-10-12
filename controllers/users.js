@@ -20,9 +20,6 @@ const getUserMe = async (req, res, next) => {
     }
     return res.status(200).send(user);
   } catch (e) {
-    if (e.name === 'CastError') {
-      return next(new BadRequest('Ошибка в запросе'));
-    }
     return next(new InternalServerError('Произошла ошибка на сервере'));
   }
 };

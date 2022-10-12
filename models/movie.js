@@ -31,29 +31,19 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validate: {
-      validate: [validator.isURL, 'Ошибка в ссылке'],
-    },
+    validate: [validator.isURL, 'Ошибка в ссылке'],
   },
 
   trailerLink: {
     type: String,
     required: true,
-    validate: {
-      validate: {
-        validate: [validator.isURL, 'Ошибка в ссылке'],
-      },
-    },
+    validate: [validator.isURL, 'Ошибка в ссылке'],
   },
 
   thumbnail: {
     type: String,
     required: true,
-    validate: {
-      validate: {
-        validate: [validator.isURL, 'Ошибка в ссылке'],
-      },
-    },
+    validate: [validator.isURL, 'Ошибка в ссылке'],
   },
 
   owner: {

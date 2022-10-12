@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const userUpdateValidate = require('../midllewares/validation');
+const { userUpdateValidate } = require('../midllewares/validation');
 
 const {
   userUpdate,
