@@ -14,8 +14,8 @@ const DB_LINKDEV = require('./constant/constant');
 
 const app = express();
 const router = require('./routes');
-const NotFoudError = require('./errors/NotFoudError');
 const { requestLogger, errorLogger } = require('./midllewares/logger');
+const handleServerError = require('./midllewares/handleServerError');
 
 app.use(express.json());
 
@@ -39,23 +39,9 @@ app.use(helmet());
 
 app.use(router);
 
-app.use('*', (req, res, next) => {
-  next(new NotFoudError('Такой страницы нет'));
-});
-
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { status = 500, message } = err;
-  res
-    .status(status)
-    .send({
-      message: status === 500
-        ? 'На сервере произошла ошибкаAPPJS'
-        : message,
-    });
-  next();
-});
+app.use(handleServerError);
 
 app.use(errorLogger);
 
