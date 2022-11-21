@@ -50,7 +50,7 @@ const createMovieValidate = celebrate({
       }
       return helpers.message('Поле thumbnail заполнено некорректно');
     }),
-    movieId: Joi.string().hex().length(24),
+    movieId: Joi.number().integer(),
   }),
 });
 
