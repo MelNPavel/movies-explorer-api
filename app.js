@@ -18,10 +18,10 @@ const { requestLogger, errorLogger } = require('./midllewares/logger');
 const handleServerError = require('./midllewares/handleServerError');
 
 const allowedCors = [
-  // // eslint-disable-next-line quotes
-  // "https://mestofullgha.nomorepartiesxyz.ru",
-  // // eslint-disable-next-line quotes
-  // "http://mestofullgha.nomorepartiesxyz.ru",
+  // eslint-disable-next-line quotes
+  "https://movies-explorer-mpn.nomoredomains.icu",
+  // eslint-disable-next-line quotes
+  "http://movies-explorer-mpn.nomoredomains.icu",
   // eslint-disable-next-line quotes
   "http://localhost:3000",
 ];
